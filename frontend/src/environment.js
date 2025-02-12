@@ -1,4 +1,4 @@
-let IS_PROD = false
+let IS_PROD = true
 
 const server = IS_PROD ?
     "https://apnavideocall-1kfb.onrender.com":
