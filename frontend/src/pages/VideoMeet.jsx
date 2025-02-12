@@ -262,7 +262,7 @@ export default function VideoMeetComponent() {
   let addMessage = (data, sender, socketIdSender) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      {sender: sender, data: data}
+      {sender: sender, data: data, socketIdSender: socketIdSender}
     ]);
 
     if(socketIdSender !== socketIdRef.current) {
@@ -501,9 +501,9 @@ export default function VideoMeetComponent() {
               <div className={styles.chattingDisplay}>
                 {messages.length > 0 ? messages.map((item, index) => {
                   return (
-                    <div key={index} style={{marginBottom: "20px"}}>
-                      <p style={{fontWeight: "bold"}}>{item.sender}</p>
-                      <p>{item.data}</p>
+                    <div key={index} style={{marginBottom: "20px"}} className={(item.socketIdSender === socketIdRef.current)? "chat chat-end" : "chat chat-start"}>
+                      <div className="chat-header font-bold text-lg">{item.sender}</div>
+                      <div className="chat-bubble chat-bubble-neutral">{item.data}</div>
                     </div>
                   );
                 }) : <></>}
