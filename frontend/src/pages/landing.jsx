@@ -35,7 +35,7 @@ export default function LandingPage() {
         <div>
           <h1><span style={{color: '#043671'}}>Connect</span> with your loved ones</h1>
         
-          <p>Cover a distance by apna video call</p>
+          <p>Cover a distance by Reunirse</p>
           <div role='button'>
             <Link to={"/auth"}>Get Started</Link>
           </div>
