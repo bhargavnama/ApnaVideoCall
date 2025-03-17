@@ -20,7 +20,7 @@ app.use(express.urlencoded({limit: "40kb", extended: true}));
 app.use('/api/v1/users', userRoutes);
 
 const start = async () => {
-    const connectionDB = await mongoose.connect(process.env.MOGO_URI);
+    const connectionDB = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MonogoDB Connected host: ${connectionDB.connection.host}`);
     server.listen(PORT, () => {
         console.log('Server is running on port ', PORT);
