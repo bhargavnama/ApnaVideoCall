@@ -46,8 +46,8 @@ function HomeComponent() {
             <div>
                 <h2>Providing Quality Video Call Just Like Quality Education</h2>
 
-                <div style={{display: "flex", gap: "10px"}}>
-                    <TextField onChange={(e) => setMeetingCode(e.target.value)} id="outlined-basic" label="Meeting Code" variant="outlined"></TextField>
+                <div style={{display: "flex", gap: "10px", marginTop: "20px"}}>
+                    <TextField onChange={(e) => setMeetingCode(e.target.value)} color="primary" id="outlined-basic" label="Meeting Code" variant="outlined"></TextField>
                     
                     <Button onClick={handleJoinVideoCall} variant="contained">Join</Button>
                 </div>
