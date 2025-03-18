@@ -16,16 +16,16 @@ export default function LandingPage() {
           <h2>REUNIRSE</h2>
         </div>
         <div className='navlist'>
-          <p onClick={() => {
+          {/* <p onClick={() => {
             let roomId = getRoomId();
             router(`/${roomId}`);
-          }}>Join as Guest</p>
+          }}>Join as Guest</p> */}
           <p onClick={() => {
-            router("/auth");
+            router("/signup");
           }}>Register</p>
           <div role='button'>
             <p onClick={() => {
-              router("/auth")
+              router("/login")
             }}>Log In</p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function LandingPage() {
         
           <p>Cover a distance by Reunirse</p>
           <div role='button'>
-            <Link to={"/auth"}>Get Started</Link>
+            <Link to={"/signup"}>Get Started</Link>
           </div>
         </div>
         {/* <div>
