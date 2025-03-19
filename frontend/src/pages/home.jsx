@@ -34,7 +34,7 @@ function HomeComponent() {
             <p>History</p>
             <Button onClick={() => {
                 localStorage.removeItem("token")
-                navigate("/auth")
+                navigate("/login")
             }}>
                 Logout
             </Button>
