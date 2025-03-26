@@ -24,18 +24,52 @@
     font-size: 2.5rem;
 }
 
-.conferenceView{
+.conferenceView {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 10px;
-    /* gap: 10px; */
+    justify-content: center;
+    align-content: flex-start;
+    width: 100vw;
+    height: calc(90vh - 80px); /* Leave space for buttonContainers */
+    overflow-y: auto;
 }
 
-.conferenceView video{
-    width: 40vw;
-    height: 20vh;
-    min-width: 30vw;
+/* Video styling - occupy 45% width for 2 per row */
+.conferenceView video {
+    width: 45%;
+    height: calc((90vh - 100px) / 2 - 10px); /* 2 rows max with gap */
+    min-width: 300px;
     border-radius: 10px;
+    object-fit: cover;
 }
+
+/* Handle 1 video - Full width */
+.conferenceView:has(video:nth-child(1)) video {
+    width: 60%;
+    height: 60vh;
+}
+
+/* For 2 videos - 2 equal columns */
+.conferenceView:has(video:nth-child(2)) video {
+    width: 45%;
+    height: calc(45vh - 10px);
+}
+
+/* For 3-4 videos - 2x2 grid */
+.conferenceView:has(video:nth-child(3)),
+.conferenceView:has(video:nth-child(4)) video {
+    width: 45%;
+    height: calc((90vh - 100px) / 2 - 10px);
+}
+
+/* For more than 4 users - wrap with scroll */
+.conferenceView video:nth-child(n+5) {
+    width: 45%;
+    height: calc((90vh - 100px) / 2 - 10px);
+}
+
 
 .chatRoom {
     position: absolute;
