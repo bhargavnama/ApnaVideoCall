@@ -6,6 +6,7 @@
   height: 100vh;
   z-index: -1;
   overflow: hidden;
+  background-color: #03468A;
 }
 
 .backgroundVideo {
@@ -25,4 +26,38 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1;
+}
+
+.mobileBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #03468A;
+  z-index: 0;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+  .videoContainer {
+    background-color: #03468A;
+  }
+  
+  .mobileBackground {
+    background-color: #03468A;
+  }
 } 
