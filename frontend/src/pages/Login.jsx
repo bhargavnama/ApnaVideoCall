@@ -1,95 +1,70 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
-import "./Login.css";
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import VideoBackground from '../components/VideoBackground';
+import styles from './Auth.module.css';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
-
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   const { handleLogin } = useContext(AuthContext);
 
-  // Handle login submission
-  const handleAuth = async (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await handleLogin(username, password);
-      setMessage(result);
-      setShowMessage(true);
-      setUsername("");
-      setPassword("");
-      setError("");
+      await handleLogin(formData.username, formData.password);
+      navigate('/home');
     } catch (error) {
-      let message = error.response?.data?.message || "Login failed. Please try again.";
-      setError(message);
+      setError(error.response?.data?.message || 'Login failed. Please try again.');
     }
   };
 
-  // Close the snackbar
-  const handleCloseMessage = () => {
-    setShowMessage(false);
-    setMessage("");
-  };
-
   return (
-    <div className="container">
-      <form onSubmit={handleAuth}>
-        <h2 className="text-center font-bold text-2xl">Login</h2>
-
-        <div className="input-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Error Message */}
-        {error && <p className="error">{error}</p>}
-
-        <div className="submit">
-          <button type="submit" className="bg-primary p-2 rounded-lg">
+    <div className={styles.authContainer}>
+      <VideoBackground />
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit} className={styles.authForm}>
+          <h2>Login</h2>
+          {error && <p style={{ color: '#ff4444', textAlign: 'center' }}>{error}</p>}
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className={styles.neonButton}>
             Login
           </button>
-        </div>
-
-        {/* Signup Link */}
-        <p className="signup-link">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-highlight">
-            Sign Up
-          </Link>
-        </p>
-      </form>
-
-      {/* Snackbar Message */}
-      {showMessage && (
-        <div className="snackbar">
-          {message}
-          <button className="close-btn" onClick={handleCloseMessage}>
-            ✖
-          </button>
-        </div>
-      )}
+          <p className={styles.switchAuth}>
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,109 +1,103 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
-import "./Signup.css";
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import VideoBackground from '../components/VideoBackground';
+import styles from './Auth.module.css';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Signup = () => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState(""); // Using username instead of email
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
-
+  const [formData, setFormData] = useState({
+    name: '',
+    username: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   const { handleRegister } = useContext(AuthContext);
 
-  // Handle signup submission
-  const handleAuth = async (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
     try {
-      const result = await handleRegister(name, username, password);
-      setMessage(result);
-      setShowMessage(true);
-      setName("");
-      setUsername("");
-      setPassword("");
-      setError("");
+      await handleRegister(formData.name, formData.username, formData.password);
+      navigate('/login');
     } catch (error) {
-      let message = error.response?.data?.message || "Signup failed. Please try again.";
-      setError(message);
+      setError(error.response?.data?.message || 'Signup failed. Please try again.');
     }
   };
 
-  // Close the snackbar message
-  const handleCloseMessage = () => {
-    setShowMessage(false);
-    setMessage("");
-  };
-
   return (
-    <div className="container">
-      <form onSubmit={handleAuth}>
-        <h2 className="text-center font-bold text-2xl">Sign Up</h2>
-
-        <div className="input-group">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="email">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Error Message */}
-        {error && <p className="error">{error}</p>}
-
-        <div className="submit">
-          <button type="submit" className="bg-primary p-2 rounded-lg">
-            Create Account
+    <div className={styles.authContainer}>
+      <VideoBackground />
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit} className={styles.authForm}>
+          <h2>Sign Up</h2>
+          {error && <p style={{ color: '#ff4444', textAlign: 'center' }}>{error}</p>}
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className={styles.neonButton}>
+            Sign Up
           </button>
-        </div>
-
-        {/* Login Link */}
-        <p className="signup-link">
-          Already have an account?{" "}
-          <Link to="/login" className="text-highlight">
-            Login
-          </Link>
-        </p>
-      </form>
-
-      {/* Snackbar Message */}
-      {showMessage && (
-        <div className="snackbar">
-          {message}
-          <button className="close-btn" onClick={handleCloseMessage}>
-            ✖
-          </button>
-        </div>
-      )}
+          <p className={styles.switchAuth}>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
