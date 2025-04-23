@@ -4,6 +4,8 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .formContainer {
@@ -13,7 +15,9 @@
   width: 100%;
   max-width: 400px;
   box-shadow: 0 0 30px rgba(3, 70, 138, 0.5);
-  animation: neonPulse 2s infinite;
+  animation: slideIn 0.5s ease forwards;
+  transform: translateY(-20px);
+  opacity: 0;
 }
 
 .authForm {
@@ -28,10 +32,31 @@
   font-size: 2rem;
   margin-bottom: 1rem;
   text-shadow: 0 0 15px rgba(3, 70, 138, 0.7);
+  animation: fadeIn 0.5s ease forwards 0.2s;
+  opacity: 0;
 }
 
 .inputGroup {
   position: relative;
+  animation: slideIn 0.5s ease forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.inputGroup:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.inputGroup:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.inputGroup:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.inputGroup:nth-child(4) {
+  animation-delay: 0.6s;
 }
 
 .inputGroup input {
@@ -68,6 +93,8 @@
   letter-spacing: 1px;
   position: relative;
   overflow: hidden;
+  animation: fadeIn 0.5s ease forwards 0.7s;
+  opacity: 0;
 }
 
 .neonButton:hover {
@@ -79,6 +106,8 @@
 .switchAuth {
   text-align: center;
   color: #fff;
+  animation: fadeIn 0.5s ease forwards 0.8s;
+  opacity: 0;
 }
 
 .switchAuth a {
@@ -100,6 +129,26 @@
   }
   100% {
     box-shadow: 0 0 30px rgba(3, 70, 138, 0.5);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
